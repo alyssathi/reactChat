@@ -1,6 +1,10 @@
 import { Button, Card, TextField } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import React from "react";
+import { useRef, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
+import { auth } from "../../firebase/firebase";
+import { useAuth } from "./../../contexts/AuthContext";
 
 const useStyles = makeStyles({
   center: {
@@ -17,19 +21,57 @@ const useStyles = makeStyles({
 export function SignUp() {
   const css = useStyles();
 
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const passwordConfirmRef = useRef();
+  const { signup, currentUser } = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+      return setError("Passwords must match.");
+    }
+
+    try {
+      setError("");
+      setLoading(true);
+      await signup(emailRef.current.value, passwordRef.current.value);
+    } catch {
+      setError("Failed to create an account");
+    }
+
+    setLoading(false);
+  }
   return (
     <Card className={`${css.center}`}>
       <h2>Sign Up</h2>
-      <form className={`${css.center}`}>
-        <TextField required fullWidth label="Email" type="email" />
-        <TextField required fullWidth label="Password" type="password" />
+      {error && <Alert severity="error">{error}</Alert>}
+      <form onSubmit={handleSubmit} className={`${css.center}`}>
+        <TextField
+          required
+          fullWidth
+          label="Email"
+          type="email"
+          inputRef={emailRef}
+        />
+        <TextField
+          required
+          fullWidth
+          label="Password"
+          type="password"
+          inputRef={passwordRef}
+        />
         <TextField
           required
           fullWidth
           label="Confirm Password"
           type="password"
+          inputRef={passwordConfirmRef}
         />
-        <Button fullWidth type="submit">
+        <Button disabled={loading} fullWidth type="submit">
           Sign Up
         </Button>
       </form>
