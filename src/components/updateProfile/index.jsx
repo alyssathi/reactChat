@@ -18,33 +18,48 @@ const useStyles = makeStyles({
   },
 });
 
-export function LogIn() {
+export function UpdateProfile() {
   const css = useStyles();
 
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { login } = useAuth();
+  const passwordConfirmRef = useRef();
+  const { currentUser, updatePassword, updateEmail } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-
-    try {
-      setError("");
-      setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
-      history.push("/");
-    } catch {
-      setError("Failed to sign in");
+    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+      return setError("Passwords must match.");
     }
 
-    setLoading(false);
+    const promises = [];
+    setLoading(true);
+    setError("");
+
+    if (emailRef.current.value !== currentUser.email) {
+      promises.push(updateEmail(emailRef.current.value));
+    }
+    if (passwordRef.current.value) {
+      promises.push(updatePassword(passwordRef.current.value));
+    }
+
+    Promise.all(promises)
+      .then(() => {
+        history.push("/");
+      })
+      .catch(() => {
+        setError("Failed to update Account");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
   return (
     <Card className={`${css.center}`}>
-      <h2>Log In</h2>
+      <Typography variant="h2">Update Profile</Typography>
       {error && <Alert severity="error">{error}</Alert>}
       <form onSubmit={handleSubmit} className={`${css.center}`}>
         <TextField
@@ -53,24 +68,31 @@ export function LogIn() {
           label="Email"
           type="email"
           inputRef={emailRef}
+          defaultValue={currentUser.email}
         />
         <TextField
-          required
           fullWidth
           label="Password"
           type="password"
           inputRef={passwordRef}
+          placeholder="leave blank to keep the same"
         />
-        <Typography>
-          <Link to="/forgot-password">Forgot Password? </Link>
-        </Typography>
+        <TextField
+          fullWidth
+          label="Confirm Password"
+          type="password"
+          inputRef={passwordConfirmRef}
+          placeholder="leave blank to keep the same"
+        />
         <Button disabled={loading} fullWidth type="submit">
-          Login
+          Update
         </Button>
       </form>
-      <Typography>
-        Need an account? <Link to="/signup">Sign up here</Link>
-      </Typography>
+      <div>
+        <Typography>
+          <Link to="/">Cancel</Link>
+        </Typography>
+      </div>
     </Card>
   );
 }

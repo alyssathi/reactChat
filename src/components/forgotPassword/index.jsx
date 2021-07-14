@@ -4,7 +4,7 @@ import React from "react";
 import { useRef, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { useAuth } from "./../../contexts/AuthContext";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   center: {
@@ -18,34 +18,35 @@ const useStyles = makeStyles({
   },
 });
 
-export function LogIn() {
+export function ForgotPassword() {
   const css = useStyles();
 
   const emailRef = useRef();
-  const passwordRef = useRef();
-  const { login } = useAuth();
+  const { resetPassword } = useAuth();
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
+      setMessage("");
       setError("");
       setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
-      history.push("/");
+      await resetPassword(emailRef.current.value);
+      setMessage("Check your inbox for further instructions");
     } catch {
-      setError("Failed to sign in");
+      setError("Failed to reset password");
     }
 
     setLoading(false);
   }
   return (
     <Card className={`${css.center}`}>
-      <h2>Log In</h2>
+      <h2>Password Reset</h2>
       {error && <Alert severity="error">{error}</Alert>}
+      {message && <Alert severity="success">{message}</Alert>}
       <form onSubmit={handleSubmit} className={`${css.center}`}>
         <TextField
           required
@@ -54,20 +55,13 @@ export function LogIn() {
           type="email"
           inputRef={emailRef}
         />
-        <TextField
-          required
-          fullWidth
-          label="Password"
-          type="password"
-          inputRef={passwordRef}
-        />
-        <Typography>
-          <Link to="/forgot-password">Forgot Password? </Link>
-        </Typography>
         <Button disabled={loading} fullWidth type="submit">
-          Login
+          Reset Password
         </Button>
       </form>
+      <Typography>
+        Know your account details? <Link to="/login">Sign in here</Link>
+      </Typography>
       <Typography>
         Need an account? <Link to="/signup">Sign up here</Link>
       </Typography>
