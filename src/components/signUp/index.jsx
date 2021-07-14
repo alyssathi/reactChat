@@ -1,10 +1,10 @@
-import { Button, Card, TextField } from "@material-ui/core";
+import { Button, Card, TextField, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import React from "react";
 import { useRef, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
-import { auth } from "../../firebase/firebase";
 import { useAuth } from "./../../contexts/AuthContext";
+import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   center: {
@@ -24,9 +24,10 @@ export function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  const { signup, currentUser } = useAuth();
+  const { signup } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -39,6 +40,7 @@ export function SignUp() {
       setError("");
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
+      history.push("/login");
     } catch {
       setError("Failed to create an account");
     }
@@ -75,6 +77,11 @@ export function SignUp() {
           Sign Up
         </Button>
       </form>
+      <div>
+        <Typography>
+          Already have an account? <Link to="/login">Sign in here</Link>
+        </Typography>
+      </div>
     </Card>
   );
 }
