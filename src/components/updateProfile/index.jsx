@@ -7,14 +7,23 @@ import { useAuth } from "./../../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
-  center: {
+  card: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     minWidth: "33vw",
-    maxWidth: "33vw",
-    padding: "rem",
+    maxWidth: "50vw",
+    padding: "1rem",
+    textAlign: "center",
+  },
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    width: "100vw",
+    background: "linear-gradient(white, grey)",
   },
 });
 
@@ -58,41 +67,43 @@ export function UpdateProfile() {
       });
   }
   return (
-    <Card className={`${css.center}`}>
-      <Typography variant="h2">Update Profile</Typography>
-      {error && <Alert severity="error">{error}</Alert>}
-      <form onSubmit={handleSubmit} className={`${css.center}`}>
-        <TextField
-          required
-          fullWidth
-          label="Email"
-          type="email"
-          inputRef={emailRef}
-          defaultValue={currentUser.email}
-        />
-        <TextField
-          fullWidth
-          label="Password"
-          type="password"
-          inputRef={passwordRef}
-          placeholder="leave blank to keep the same"
-        />
-        <TextField
-          fullWidth
-          label="Confirm Password"
-          type="password"
-          inputRef={passwordConfirmRef}
-          placeholder="leave blank to keep the same"
-        />
-        <Button disabled={loading} fullWidth type="submit">
-          Update
-        </Button>
-      </form>
-      <div>
-        <Typography>
-          <Link to="/">Cancel</Link>
-        </Typography>
-      </div>
-    </Card>
+    <div className={css.container}>
+      <Card className={`${css.card}`}>
+        <Typography variant="h2">Update Profile</Typography>
+        {error && <Alert severity="error">{error}</Alert>}
+        <form onSubmit={handleSubmit} className={`${css.center}`}>
+          <TextField
+            required
+            fullWidth
+            label="Email"
+            type="email"
+            inputRef={emailRef}
+            defaultValue={currentUser.email}
+          />
+          <TextField
+            fullWidth
+            label="Password"
+            type="password"
+            inputRef={passwordRef}
+            placeholder="leave blank to keep the same"
+          />
+          <TextField
+            fullWidth
+            label="Confirm Password"
+            type="password"
+            inputRef={passwordConfirmRef}
+            placeholder="leave blank to keep the same"
+          />
+          <Button disabled={loading} fullWidth type="submit">
+            Update
+          </Button>
+        </form>
+        <div>
+          <Typography>
+            <Link to="/">Cancel</Link>
+          </Typography>
+        </div>
+      </Card>
+    </div>
   );
 }

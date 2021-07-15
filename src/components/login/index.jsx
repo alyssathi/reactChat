@@ -7,14 +7,23 @@ import { useAuth } from "./../../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
-  center: {
+  card: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     minWidth: "33vw",
-    maxWidth: "33vw",
-    padding: "rem",
+    maxWidth: "50vw",
+    padding: "1rem",
+    textAlign: "center",
+  },
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    width: "100vw",
+    background: "linear-gradient(white, grey)",
   },
 });
 
@@ -43,34 +52,36 @@ export function LogIn() {
     setLoading(false);
   }
   return (
-    <Card className={`${css.center}`}>
-      <h2>Log In</h2>
-      {error && <Alert severity="error">{error}</Alert>}
-      <form onSubmit={handleSubmit} className={`${css.center}`}>
-        <TextField
-          required
-          fullWidth
-          label="Email"
-          type="email"
-          inputRef={emailRef}
-        />
-        <TextField
-          required
-          fullWidth
-          label="Password"
-          type="password"
-          inputRef={passwordRef}
-        />
+    <div className={css.container}>
+      <Card className={`${css.card}`}>
+        <Typography variant="h2">Login</Typography>
+        {error && <Alert severity="error">{error}</Alert>}
+        <form onSubmit={handleSubmit} className={`${css.center}`}>
+          <TextField
+            required
+            fullWidth
+            label="Email"
+            type="email"
+            inputRef={emailRef}
+          />
+          <TextField
+            required
+            fullWidth
+            label="Password"
+            type="password"
+            inputRef={passwordRef}
+          />
+          <Typography>
+            <Link to="/forgot-password">Forgot Password? </Link>
+          </Typography>
+          <Button disabled={loading} fullWidth type="submit">
+            Login
+          </Button>
+        </form>
         <Typography>
-          <Link to="/forgot-password">Forgot Password? </Link>
+          Need an account? <Link to="/signup">Sign up here</Link>
         </Typography>
-        <Button disabled={loading} fullWidth type="submit">
-          Login
-        </Button>
-      </form>
-      <Typography>
-        Need an account? <Link to="/signup">Sign up here</Link>
-      </Typography>
-    </Card>
+      </Card>
+    </div>
   );
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Input, Button } from "@material-ui/core";
 import { db, auth, serverTimestamp } from "../../firebase/firebase";
 
-export function SendMessage() {
+export function SendMessage({ scroll }) {
   const [msg, setMsg] = useState("");
 
   async function handleSend(e) {
@@ -16,16 +16,20 @@ export function SendMessage() {
     });
 
     setMsg("");
+    scroll.current.scrollIntoView({ behavior: "smooth" });
   }
   return (
     <div>
       <form onSubmit={handleSend}>
-        <Input
-          value={msg}
-          onChange={(e) => setMsg(e.target.value)}
-          placeholder="Message..."
-        />
-        <Button type="submit">Send</Button>
+        <div className="sendMsg">
+          <Input
+            fullWidth
+            value={msg}
+            onChange={(e) => setMsg(e.target.value)}
+            placeholder="Message..."
+          />
+          <Button type="submit">Send</Button>
+        </div>
       </form>
     </div>
   );

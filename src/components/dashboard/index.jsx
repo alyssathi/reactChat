@@ -1,14 +1,25 @@
 import React, { useState } from "react";
-import { Button, Card, Typography } from "@material-ui/core";
+import { AppBar, Button, Toolbar, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useAuth } from "../../contexts/AuthContext";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Chat } from "../chat";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  button: {
+    color: "white",
+  },
+  toolbar: {
+    justifyContent: "space-between",
+  },
+});
 
 export function Dashboard() {
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
   const history = useHistory();
+  const css = useStyles();
 
   async function handleLogout() {
     setError("");
@@ -19,15 +30,28 @@ export function Dashboard() {
       setError("Failed to Logout");
     }
   }
+
+  function handleProfile() {
+    return history.push("/update-profile");
+  }
+
   return (
     <>
-      <Card>
-        <Button onClick={handleLogout}>Logout</Button>
-        <h2>Profile</h2>
-        {error && <Alert severity="error">{error}</Alert>}
-        <Typography>Email: {currentUser.email}</Typography>
-        <Link to="/update-profile">Update Profile</Link>
-      </Card>
+      <AppBar>
+        <Toolbar className={css.toolbar}>
+          <Typography>Welcome to ReactChat, {currentUser.email}!</Typography>
+          {error && <Alert severity="error">{error}</Alert>}
+
+          <div>
+            <Button className={css.button} onClick={handleProfile}>
+              Update Profile
+            </Button>
+            <Button className={css.button} onClick={handleLogout}>
+              Logout
+            </Button>
+          </div>
+        </Toolbar>
+      </AppBar>
       <Chat />
       <div></div>
     </>

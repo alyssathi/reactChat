@@ -7,14 +7,23 @@ import { useAuth } from "./../../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
-  center: {
+  card: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     minWidth: "33vw",
-    maxWidth: "33vw",
-    padding: "rem",
+    maxWidth: "50vw",
+    padding: "1rem",
+    textAlign: "center",
+  },
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    width: "100vw",
+    background: "linear-gradient(white, grey)",
   },
 });
 
@@ -48,40 +57,42 @@ export function SignUp() {
     setLoading(false);
   }
   return (
-    <Card className={`${css.center}`}>
-      <h2>Sign Up</h2>
-      {error && <Alert severity="error">{error}</Alert>}
-      <form onSubmit={handleSubmit} className={`${css.center}`}>
-        <TextField
-          required
-          fullWidth
-          label="Email"
-          type="email"
-          inputRef={emailRef}
-        />
-        <TextField
-          required
-          fullWidth
-          label="Password"
-          type="password"
-          inputRef={passwordRef}
-        />
-        <TextField
-          required
-          fullWidth
-          label="Confirm Password"
-          type="password"
-          inputRef={passwordConfirmRef}
-        />
-        <Button disabled={loading} fullWidth type="submit">
-          Sign Up
-        </Button>
-      </form>
-      <div>
-        <Typography>
-          Already have an account? <Link to="/login">Sign in here</Link>
-        </Typography>
-      </div>
-    </Card>
+    <div className={css.container}>
+      <Card className={`${css.card}`}>
+        <Typography variant="h2">Sign Up</Typography>
+        {error && <Alert severity="error">{error}</Alert>}
+        <form onSubmit={handleSubmit} className={`${css.center}`}>
+          <TextField
+            required
+            fullWidth
+            label="Email"
+            type="email"
+            inputRef={emailRef}
+          />
+          <TextField
+            required
+            fullWidth
+            label="Password"
+            type="password"
+            inputRef={passwordRef}
+          />
+          <TextField
+            required
+            fullWidth
+            label="Confirm Password"
+            type="password"
+            inputRef={passwordConfirmRef}
+          />
+          <Button disabled={loading} fullWidth type="submit">
+            Sign Up
+          </Button>
+        </form>
+        <div>
+          <Typography>
+            Already have an account? <Link to="/login">Sign in here</Link>
+          </Typography>
+        </div>
+      </Card>
+    </div>
   );
 }
