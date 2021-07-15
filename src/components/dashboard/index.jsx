@@ -3,6 +3,7 @@ import { Button, Card, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
+import { Chat } from "../chat";
 
 export function Dashboard() {
   const [error, setError] = useState("");
@@ -21,14 +22,14 @@ export function Dashboard() {
   return (
     <>
       <Card>
+        <Button onClick={handleLogout}>Logout</Button>
         <h2>Profile</h2>
         {error && <Alert severity="error">{error}</Alert>}
         <Typography>Email: {currentUser.email}</Typography>
         <Link to="/update-profile">Update Profile</Link>
       </Card>
-      <div>
-        <Button onClick={handleLogout}>Logout</Button>
-      </div>
+      <Chat />
+      <div></div>
     </>
   );
 }
