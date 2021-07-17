@@ -16,21 +16,19 @@ export function Chat() {
   }, []);
 
   return (
-    <div>
-      <div className="msgs">
-        {messages.map(({ id, text, uid }) => (
-          <div
-            key={id}
-            className={`msg ${
-              uid === auth.currentUser.uid ? "sent" : "recieved"
-            }`}
-          >
-            <p>{text}</p>
-          </div>
-        ))}
-        <SendMessage scroll={scroll} />
-        <div ref={scroll}></div>
-      </div>
+    <div className="msgs">
+      {messages.map(({ id, text, uid }) => (
+        <div
+          key={id}
+          className={`msg ${
+            uid === auth.currentUser.uid ? "sent" : "recieved"
+          }`}
+        >
+          <p>{text}</p>
+        </div>
+      ))}
+      <SendMessage scroll={scroll} />
+      <div ref={scroll}></div>
     </div>
   );
 }

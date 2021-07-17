@@ -2,12 +2,12 @@ import React from "react";
 import {
   SignUp,
   LogIn,
-  Dashboard,
   PrivateRoute,
   ForgotPassword,
   UpdateProfile,
-} from "../components";
-import { AuthProvider } from "../contexts/AuthContext";
+} from "./components";
+import { Dashboard } from "./pages";
+import { AuthProvider } from "./contexts/AuthContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 
