@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { useAuth } from "./../../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
+import { db, auth } from "../../firebase/firebase";
 
 const useStyles = makeStyles({
   card: {
@@ -38,7 +39,7 @@ export function SignUp() {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
@@ -48,7 +49,7 @@ export function SignUp() {
     try {
       setError("");
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
+      signup(emailRef.current.value, passwordRef.current.value);
       history.push("/login");
     } catch {
       setError("Failed to create an account");
@@ -56,6 +57,7 @@ export function SignUp() {
 
     setLoading(false);
   }
+
   return (
     <div className={css.container}>
       <Card className={`${css.card}`}>

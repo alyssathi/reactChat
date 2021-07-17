@@ -40,7 +40,9 @@ export function NavBar() {
   return (
     <AppBar>
       <Toolbar className={css.toolbar}>
-        <Typography>Welcome to ReactChat, {currentUser.email}!</Typography>
+        <Typography>
+          Welcome to ReactChat, {currentUser.displayName}!
+        </Typography>
         {error && <Alert severity="error">{error}</Alert>}
 
         <div>

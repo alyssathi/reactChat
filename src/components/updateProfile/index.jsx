@@ -30,10 +30,11 @@ const useStyles = makeStyles({
 export function UpdateProfile() {
   const css = useStyles();
 
+  const displayNameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  const { currentUser, updatePassword, updateEmail } = useAuth();
+  const { currentUser, updatePassword, updateEmail, updateProfile } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -54,6 +55,11 @@ export function UpdateProfile() {
     if (passwordRef.current.value) {
       promises.push(updatePassword(passwordRef.current.value));
     }
+    if (displayNameRef !== currentUser.displayName) {
+      promises.push(
+        updateProfile({ displayName: displayNameRef.current.value })
+      );
+    }
 
     Promise.all(promises)
       .then(() => {
@@ -72,6 +78,14 @@ export function UpdateProfile() {
         <Typography variant="h2">Update Profile</Typography>
         {error && <Alert severity="error">{error}</Alert>}
         <form onSubmit={handleSubmit} className={`${css.center}`}>
+          <TextField
+            required
+            fullWidth
+            label="Display Name"
+            type="string"
+            inputRef={displayNameRef}
+            defaultValue={currentUser.displayName}
+          />
           <TextField
             required
             fullWidth
