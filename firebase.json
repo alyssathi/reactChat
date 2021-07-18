@@ -7,6 +7,10 @@
     "auth": {
       "port": 9099
     },
+    "hosting": {
+      "port": 5000,
+      "host": "0.0.0.0"
+    },
     "functions": {
       "port": 5001
     },
@@ -21,5 +25,15 @@
     "ui": {
       "enabled": true
     }
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   }
 }
