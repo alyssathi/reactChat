@@ -5,8 +5,8 @@ import { CreateConversation } from "./createConversation";
 export function Conversations() {
   return (
     <div>
-      <ConversationList />
       <CreateConversation />
+      <ConversationList />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
-  convos: {
+  contacts: {
     display: "flex",
     borderBottom: "1px solid lightgray",
     padding: "1rem",
@@ -23,29 +23,29 @@ const useStyles = makeStyles({
   },
 });
 
-export function ConversationList() {
-  const [conversations, setConversations] = useState([]);
+export function ContactList() {
+  const [contacts, setContacts] = useState([]);
+  const { uid } = auth.currentUser;
   const css = useStyles();
 
   useEffect(() => {
-    db.collection("conversations")
-      .orderBy("lastUsed", "desc")
+    db.collection("users")
+      .doc(uid)
+      .collection("contacts")
+      .orderBy("displayName")
       .onSnapshot((snapshot) => {
-        setConversations(snapshot.docs.map((doc) => doc.data()));
+        setContacts(snapshot.docs.map((doc) => doc.data()));
       });
   }, []);
 
   return (
     <div className={css.list}>
-      {conversations.map(({ chatName, lastUsed, participants, id }) => {
-        const lastUsedDate = lastUsed
-          ? lastUsed.toDate().toLocaleString()
-          : "now";
+      {contacts.map(({ displayName, contactUid, createdAt }) => {
         return (
-          <div className={css.convos} key={id}>
-            <Typography className={css.convoTitle} variant="body1">
-              <div>{chatName}</div>
-              <div className={css.dateColor}>{lastUsedDate}</div>
+          <div className={css.contacts} key={createdAt}>
+            <Typography variant="body1">
+              <div>{displayName}</div>
+              <div>ID: {contactUid}</div>
             </Typography>
           </div>
         );

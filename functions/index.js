@@ -12,7 +12,6 @@ const admin = require("firebase-admin");
 admin.initializeApp();
 
 exports.addUser = functions.auth.user().onCreate((user) => {
-  console.log(user);
   return admin
     .firestore()
     .collection("users")

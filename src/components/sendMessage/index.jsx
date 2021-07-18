@@ -4,6 +4,9 @@ import { db, auth, serverTimestamp } from "../../firebase/firebase";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
+  container: {
+    width: "100%",
+  },
   sendMsg: {
     position: "fixed",
     display: "flex",
@@ -11,7 +14,7 @@ const useStyles = makeStyles({
     borderTop: "1px solid lightgray",
     padding: "1rem",
     backgroundColor: "#fafafa",
-    width: "100%",
+    width: "inherit",
   },
 });
 
@@ -33,7 +36,7 @@ export function SendMessage({ scroll }) {
     scroll.current.scrollIntoView({ behavior: "smooth" });
   }
   return (
-    <form onSubmit={handleSend}>
+    <form className={css.container} onSubmit={handleSend}>
       <div className={css.sendMsg}>
         <Input
           fullWidth

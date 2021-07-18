@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { Input, Button } from "@material-ui/core";
 import { db, auth, serverTimestamp } from "../../../../firebase/firebase";
 import { makeStyles } from "@material-ui/core";
+import { SimpleModal } from "../../../modal";
 
 const useStyles = makeStyles({
   createContact: {
@@ -16,28 +17,37 @@ const useStyles = makeStyles({
 });
 
 export function CreateContact() {
-  const [conversationName, setConversationName] = useState("");
   const css = useStyles();
-  const contactRef = useRef();
+  const displayNameRef = useRef();
+  const contactUidRef = useRef();
 
   async function handleSend(e) {
     e.preventDefault();
     const { uid } = auth.currentUser;
 
-    await db.collection("conversations").add({
-      chatName: conversationName,
-      participants: uid,
-      lastUsed: serverTimestamp(),
+    await db.collection("users").doc(uid).collection("contacts").add({
+      displayName: displayNameRef.current.value,
+      contactUid: contactUidRef.current.value,
+      createdAt: serverTimestamp(),
     });
-
-    setConversationName("");
   }
   return (
-    <form onSubmit={handleSend}>
-      <div className={css.createContact}>
-        <Input fullWidth inputRef={contactRef} placeholder="Add a Friend..." />
-        <Button type="submit">Submit</Button>
-      </div>
-    </form>
+    <SimpleModal modalName="Create Contact">
+      <form onSubmit={handleSend}>
+        <Input
+          required
+          fullWidth
+          inputRef={displayNameRef}
+          placeholder="Name"
+        />
+        <Input
+          required
+          fullWidth
+          inputRef={contactUidRef}
+          placeholder="User ID"
+        />
+        <Button type="submit">Create Contact</Button>
+      </form>
+    </SimpleModal>
   );
 }

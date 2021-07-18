@@ -41,7 +41,8 @@ export function NavBar() {
     <AppBar>
       <Toolbar className={css.toolbar}>
         <Typography>
-          Welcome to ReactChat, {currentUser.displayName}!
+          Welcome to ReactChat,{" "}
+          {currentUser.displayName ? currentUser.displayName : "Stranger"}!
         </Typography>
         {error && <Alert severity="error">{error}</Alert>}
 

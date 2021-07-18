@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import { Input, Button } from "@material-ui/core";
 import { db, auth, serverTimestamp } from "../../../../firebase/firebase";
 import { makeStyles } from "@material-ui/core";
+import { SimpleModal } from "./../../../modal/index";
 
 const useStyles = makeStyles({
-  sendMsg: {
+  createConvo: {
     position: "fixed",
     display: "flex",
     bottom: "0",
@@ -16,32 +17,37 @@ const useStyles = makeStyles({
 });
 
 export function CreateConversation() {
-  const [conversationName, setConversationName] = useState("");
-  const css = useStyles();
+  const chatNameRef = useRef();
+  const participantRef = useRef();
 
   async function handleSend(e) {
     e.preventDefault();
     const { uid } = auth.currentUser;
 
     await db.collection("conversations").add({
-      chatName: conversationName,
-      participants: uid,
+      chatName: chatNameRef.current.value,
+      participants: [uid, participantRef.current.value],
       lastUsed: serverTimestamp(),
     });
-
-    setConversationName("");
   }
+
   return (
-    <form onSubmit={handleSend}>
-      <div className={css.sendMsg}>
+    <SimpleModal modalName="Create Conversation">
+      <form onSubmit={handleSend}>
         <Input
+          required
           fullWidth
-          value={conversationName}
-          onChange={(e) => setConversationName(e.target.value)}
-          placeholder="Start a New Conversation..."
+          inputRef={chatNameRef}
+          placeholder="Name your Conversation"
         />
-        <Button type="submit">Submit</Button>
-      </div>
-    </form>
+        <Input
+          required
+          fullWidth
+          inputRef={participantRef}
+          placeholder="Friend's User ID"
+        />
+        <Button type="submit">Create Conversation</Button>
+      </form>
+    </SimpleModal>
   );
 }
