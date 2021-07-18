@@ -17,9 +17,9 @@ const useStyles = makeStyles({
     },
   },
   list: {
-    height: "100vh",
+    height: "80vh",
     overflow: "scroll",
-    paddingBottom: "3rem",
+    paddingBottom: "2rem",
   },
 });
 
