@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { db, auth } from "../../firebase/firebase";
 import { SendMessage } from "../sendMessage";
 
-export function Chat() {
+export function Chat({ selectedConversation, filteredConversations }) {
   const scroll = useRef();
   const [messages, setMessages] = useState([]);
 

@@ -40,7 +40,7 @@ function a11yProps(index) {
   };
 }
 
-export function SimpleTabs() {
+export function SimpleTabs({ handleConversation, filteredConversations }) {
   const [value, setValue] = React.useState(0);
   const css = useStyles();
 
@@ -61,7 +61,10 @@ export function SimpleTabs() {
         </Tabs>
       </Paper>
       <TabPanel value={value} index={0}>
-        <Conversations />
+        <Conversations
+          handleConversation={handleConversation}
+          filteredConversations={filteredConversations}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Contacts />

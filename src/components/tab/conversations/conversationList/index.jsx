@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { db, auth } from "../../../../firebase/firebase";
-import { Typography } from "@material-ui/core";
+import { List, ListItem, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
@@ -23,33 +22,32 @@ const useStyles = makeStyles({
   },
 });
 
-export function ConversationList() {
-  const [conversations, setConversations] = useState([]);
+export function ConversationList({
+  handleConversation,
+  filteredConversations,
+}) {
   const css = useStyles();
 
-  useEffect(() => {
-    db.collection("conversations")
-      .orderBy("lastUsed", "desc")
-      .onSnapshot((snapshot) => {
-        setConversations(snapshot.docs.map((doc) => doc.data()));
-      });
-  }, []);
-
   return (
-    <div className={css.list}>
-      {conversations.map(({ chatName, lastUsed, participants, id }) => {
+    <List className={css.list}>
+      {filteredConversations.map(({ chatName, lastUsed, participants, id }) => {
         const lastUsedDate = lastUsed
           ? lastUsed.toDate().toLocaleString()
           : "now";
+
         return (
-          <div className={css.convos} key={id}>
+          <ListItem
+            onClick={() => handleConversation(id)}
+            className={css.convos}
+            key={id}
+          >
             <Typography className={css.convoTitle} variant="body1">
               <div>{chatName}</div>
               <div className={css.dateColor}>{lastUsedDate}</div>
             </Typography>
-          </div>
+          </ListItem>
         );
       })}
-    </div>
+    </List>
   );
 }
