@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 
 export function Dashboard() {
   const css = useStyles();
-  const [selectedConversation, setSelectedConversation] = useState("");
+  const [selectedConversation, setSelectedConversation] = useState("starter");
 
   const [conversations, setConversations] = useState([]);
 
@@ -42,10 +42,7 @@ export function Dashboard() {
           handleConversation={handleConversation}
           filteredConversations={filteredConversations}
         />
-        <Chat
-          selectedConversation={selectedConversation}
-          filteredConversations={filteredConversations}
-        />
+        <Chat selectedConversation={selectedConversation} />
       </div>
       <div></div>
     </>

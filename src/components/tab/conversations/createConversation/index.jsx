@@ -7,17 +7,21 @@ import { nanoid } from "nanoid";
 export function CreateConversation() {
   const chatNameRef = useRef();
   const participantRef = useRef();
+  const idRef = useRef();
 
   async function handleSend(e) {
     e.preventDefault();
     const { uid } = auth.currentUser;
 
-    await db.collection("conversations").add({
-      chatName: chatNameRef.current.value,
-      id: nanoid(),
-      participants: [uid, participantRef.current.value],
-      lastUsed: serverTimestamp(),
-    });
+    await db
+      .collection("conversations")
+      .doc(idRef.current.value)
+      .set({
+        chatName: chatNameRef.current.value,
+        id: idRef.current.value,
+        participants: [uid, participantRef.current.value],
+        lastUsed: serverTimestamp(),
+      });
   }
 
   return (
@@ -35,6 +39,7 @@ export function CreateConversation() {
           inputRef={participantRef}
           placeholder="Friend's User ID"
         />
+        <Input inputRef={idRef} value={nanoid()} />
         <Button type="submit">Create Conversation</Button>
       </form>
     </SimpleModal>

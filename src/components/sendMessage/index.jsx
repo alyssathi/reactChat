@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Input, Button } from "@material-ui/core";
 import { db, auth, serverTimestamp } from "../../firebase/firebase";
 import { makeStyles } from "@material-ui/core";
+import { nanoid } from "nanoid";
 
 const useStyles = makeStyles({
   container: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles({
   },
 });
 
-export function SendMessage({ scroll }) {
+export function SendMessage({ scroll, selectedConversation }) {
   const [msg, setMsg] = useState("");
   const css = useStyles();
 
@@ -26,12 +27,20 @@ export function SendMessage({ scroll }) {
     e.preventDefault();
     const { uid } = auth.currentUser;
 
-    await db.collection("messages").add({
-      text: msg,
-      uid,
-      createdAt: serverTimestamp(),
-    });
-
+    await db
+      .collection("conversations")
+      .doc(selectedConversation)
+      .collection("messages")
+      .add({
+        text: msg,
+        uid,
+        createdAt: serverTimestamp(),
+        id: nanoid(),
+      });
+    await db
+      .collection("conversations")
+      .doc(selectedConversation)
+      .update({ lastUsed: serverTimestamp() });
     setMsg("");
     scroll.current.scrollIntoView({ behavior: "smooth" });
   }
@@ -42,7 +51,12 @@ export function SendMessage({ scroll }) {
           fullWidth
           value={msg}
           onChange={(e) => setMsg(e.target.value)}
-          placeholder="Message..."
+          placeholder={
+            selectedConversation === "starter"
+              ? "Please select a conversation!"
+              : "Message..."
+          }
+          disabled={selectedConversation === "starter" ? true : false}
         />
         <Button type="submit">Send</Button>
       </div>
