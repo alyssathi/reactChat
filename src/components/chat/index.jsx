@@ -17,6 +17,8 @@ export function Chat({ selectedConversation }) {
       });
   }, [selectedConversation]);
 
+  console.log("messages", messages);
+
   return (
     <div className="msgs">
       {messages.map(({ id, text, uid }) => (
@@ -26,6 +28,7 @@ export function Chat({ selectedConversation }) {
             uid === auth.currentUser.uid ? "sent" : "recieved"
           }`}
         >
+          <p className={uid !== auth.currentUser.uid ? "uid" : "self"}>{uid}</p>
           <p>{text}</p>
         </div>
       ))}

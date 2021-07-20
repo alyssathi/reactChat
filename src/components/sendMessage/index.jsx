@@ -5,9 +5,6 @@ import { makeStyles } from "@material-ui/core";
 import { nanoid } from "nanoid";
 
 const useStyles = makeStyles({
-  container: {
-    width: "100%",
-  },
   sendMsg: {
     position: "fixed",
     display: "flex",
@@ -15,7 +12,7 @@ const useStyles = makeStyles({
     borderTop: "1px solid lightgray",
     padding: "1rem",
     backgroundColor: "#fafafa",
-    width: "inherit",
+    width: "100%",
   },
 });
 
@@ -45,7 +42,7 @@ export function SendMessage({ scroll, selectedConversation }) {
     scroll.current.scrollIntoView({ behavior: "smooth" });
   }
   return (
-    <form className={css.container} onSubmit={handleSend}>
+    <form onSubmit={handleSend}>
       <div className={css.sendMsg}>
         <Input
           fullWidth

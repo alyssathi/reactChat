@@ -39,7 +39,7 @@ export function CreateConversation() {
           inputRef={participantRef}
           placeholder="Friend's User ID"
         />
-        <Input inputRef={idRef} value={nanoid()} />
+        <Input hidden inputRef={idRef} value={nanoid()} />
         <Button type="submit">Create Conversation</Button>
       </form>
     </SimpleModal>
