@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { db, auth } from "../../../../firebase/firebase";
+import React from "react";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 
@@ -23,20 +22,8 @@ const useStyles = makeStyles({
   },
 });
 
-export function ContactList() {
-  const [contacts, setContacts] = useState([]);
-  const { uid } = auth.currentUser;
+export function ContactList({ contacts }) {
   const css = useStyles();
-
-  useEffect(() => {
-    db.collection("users")
-      .doc(uid)
-      .collection("contacts")
-      .orderBy("displayName")
-      .onSnapshot((snapshot) => {
-        setContacts(snapshot.docs.map((doc) => doc.data()));
-      });
-  }, []);
 
   return (
     <div className={css.list}>

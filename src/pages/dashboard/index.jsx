@@ -15,9 +15,21 @@ const useStyles = makeStyles({
 export function Dashboard() {
   const css = useStyles();
   const [selectedConversation, setSelectedConversation] = useState("starter");
-
   const [conversations, setConversations] = useState([]);
+  const [contacts, setContacts] = useState([]);
 
+  //setting my CONTACTS state
+  useEffect(() => {
+    db.collection("users")
+      .doc(auth.currentUser.uid)
+      .collection("contacts")
+      .orderBy("displayName")
+      .onSnapshot((snapshot) => {
+        setContacts(snapshot.docs.map((doc) => doc.data()));
+      });
+  }, []);
+
+  //setting my CONVERSATIONS state
   useEffect(() => {
     db.collection("conversations")
       .orderBy("lastUsed", "desc")
@@ -41,8 +53,9 @@ export function Dashboard() {
         <SimpleTabs
           handleConversation={handleConversation}
           filteredConversations={filteredConversations}
+          contacts={contacts}
         />
-        <Chat selectedConversation={selectedConversation} />
+        <Chat selectedConversation={selectedConversation} contacts={contacts} />
       </div>
       <div></div>
     </>

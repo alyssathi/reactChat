@@ -21,8 +21,7 @@ export function CreateContact() {
   const displayNameRef = useRef();
   const contactUidRef = useRef();
 
-  async function handleSend(e) {
-    e.preventDefault();
+  async function handleSend() {
     const { uid } = auth.currentUser;
 
     await db.collection("users").doc(uid).collection("contacts").add({
@@ -32,22 +31,14 @@ export function CreateContact() {
     });
   }
   return (
-    <SimpleModal modalName="Create Contact">
-      <form onSubmit={handleSend}>
-        <Input
-          required
-          fullWidth
-          inputRef={displayNameRef}
-          placeholder="Name"
-        />
-        <Input
-          required
-          fullWidth
-          inputRef={contactUidRef}
-          placeholder="User ID"
-        />
-        <Button type="submit">Create Contact</Button>
-      </form>
+    <SimpleModal modalName="Create Contact" onSubmit={handleSend}>
+      <Input required fullWidth inputRef={displayNameRef} placeholder="Name" />
+      <Input
+        required
+        fullWidth
+        inputRef={contactUidRef}
+        placeholder="User ID"
+      />
     </SimpleModal>
   );
 }

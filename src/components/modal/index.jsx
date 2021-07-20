@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-export function SimpleModal({ children, modalName }) {
+export function SimpleModal({ children, modalName, onSubmit }) {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
@@ -48,6 +48,12 @@ export function SimpleModal({ children, modalName }) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    onSubmit();
+    handleClose();
   };
 
   return (
@@ -62,7 +68,10 @@ export function SimpleModal({ children, modalName }) {
         aria-describedby="modal-description"
       >
         <div style={modalStyle} className={classes.paper}>
-          {children}
+          <form onSubmit={submitForm}>
+            {children}
+            <Button type="submit">{modalName}</Button>
+          </form>
         </div>
       </Modal>
     </div>

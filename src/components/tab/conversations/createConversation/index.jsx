@@ -9,10 +9,8 @@ export function CreateConversation() {
   const participantRef = useRef();
   const idRef = useRef();
 
-  async function handleSend(e) {
-    e.preventDefault();
+  async function handleSend() {
     const { uid } = auth.currentUser;
-
     await db
       .collection("conversations")
       .doc(idRef.current.value)
@@ -25,23 +23,20 @@ export function CreateConversation() {
   }
 
   return (
-    <SimpleModal modalName="Create Conversation">
-      <form onSubmit={handleSend}>
-        <Input
-          required
-          fullWidth
-          inputRef={chatNameRef}
-          placeholder="Name your Conversation"
-        />
-        <Input
-          required
-          fullWidth
-          inputRef={participantRef}
-          placeholder="Friend's User ID"
-        />
-        <Input hidden inputRef={idRef} value={nanoid()} />
-        <Button type="submit">Create Conversation</Button>
-      </form>
+    <SimpleModal modalName="Create Conversation" onSubmit={handleSend}>
+      <Input
+        required
+        fullWidth
+        inputRef={chatNameRef}
+        placeholder="Name your Conversation"
+      />
+      <Input
+        required
+        fullWidth
+        inputRef={participantRef}
+        placeholder="Friend's User ID"
+      />
+      <Input inputRef={idRef} value={nanoid()} />
     </SimpleModal>
   );
 }

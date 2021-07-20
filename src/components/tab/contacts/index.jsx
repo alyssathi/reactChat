@@ -18,13 +18,13 @@ const useStyles = makeStyles({
   },
 });
 
-export function Contacts() {
+export function Contacts({ contacts }) {
   const { currentUser } = useAuth();
   const css = useStyles();
   return (
     <div>
       <CreateContact />
-      <ContactList />
+      <ContactList contacts={contacts} />
       <div className={css.yourId}>
         <Typography display="inline" variant="body1">
           <b>Your userID: </b> {currentUser.uid}{" "}

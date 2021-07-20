@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { db, auth } from "../../firebase/firebase";
 import { SendMessage } from "../sendMessage";
 
-export function Chat({ selectedConversation }) {
+export function Chat({ selectedConversation, contacts }) {
   const scroll = useRef();
   const [messages, setMessages] = useState([]);
 
@@ -16,8 +16,6 @@ export function Chat({ selectedConversation }) {
         setMessages(snapshot.docs.map((doc) => doc.data()));
       });
   }, [selectedConversation]);
-
-  console.log("messages", messages);
 
   return (
     <div className="msgs">
