@@ -7,7 +7,7 @@ import { DeleteContact } from "../deleteContact";
 const useStyles = makeStyles({
   contacts: {
     display: "flex",
-    flexDirection: "column",
+    justifyContent: "space-between",
     borderBottom: "1px solid lightgray",
     padding: "1rem",
     width: "100%",
@@ -23,6 +23,13 @@ const useStyles = makeStyles({
     overflow: "scroll",
     paddingBottom: "2rem",
   },
+  buttons: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  id: {
+    fontSize: ".8rem",
+  },
 });
 
 export function ContactList({ contacts }) {
@@ -35,14 +42,16 @@ export function ContactList({ contacts }) {
           <div className={css.contacts} key={createdAt}>
             <Typography variant="body1">
               <div>{displayName}</div>
-              <div>ID: {contactUid}</div>
+              <div className={css.id}>ID: {contactUid}</div>
             </Typography>
-            <UpdateContact
-              contactId={contactId}
-              contactUid={contactUid}
-              displayName={displayName}
-            />
-            <DeleteContact contactId={contactId} displayName={displayName} />
+            <div className={css.buttons}>
+              <UpdateContact
+                contactId={contactId}
+                contactUid={contactUid}
+                displayName={displayName}
+              />
+              <DeleteContact contactId={contactId} displayName={displayName} />
+            </div>
           </div>
         );
       })}

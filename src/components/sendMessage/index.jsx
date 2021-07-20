@@ -22,6 +22,7 @@ export function SendMessage({ scroll, selectedConversation }) {
 
   async function handleSend(e) {
     e.preventDefault();
+    if (msg.trim() === "") return;
     const { uid } = auth.currentUser;
 
     await db
@@ -29,7 +30,7 @@ export function SendMessage({ scroll, selectedConversation }) {
       .doc(selectedConversation)
       .collection("messages")
       .add({
-        text: msg,
+        text: msg.trim(),
         uid,
         createdAt: serverTimestamp(),
         id: nanoid(),
