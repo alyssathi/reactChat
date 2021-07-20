@@ -1,10 +1,18 @@
 import React, { useRef } from "react";
-import { Input, Button } from "@material-ui/core";
+import { Input } from "@material-ui/core";
 import { db, auth, serverTimestamp } from "../../../../firebase/firebase";
 import { SimpleModal } from "./../../../modal/index";
 import { nanoid } from "nanoid";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  hide: {
+    display: "none",
+  },
+});
 
 export function CreateConversation() {
+  const css = useStyles();
   const chatNameRef = useRef();
   const participantRef = useRef();
   const idRef = useRef();
@@ -36,7 +44,7 @@ export function CreateConversation() {
         inputRef={participantRef}
         placeholder="Friend's User ID"
       />
-      <Input inputRef={idRef} value={nanoid()} />
+      <Input className={css.hide} inputRef={idRef} value={nanoid()} />
     </SimpleModal>
   );
 }

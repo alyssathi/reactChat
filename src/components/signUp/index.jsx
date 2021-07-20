@@ -5,7 +5,6 @@ import { useRef, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { useAuth } from "./../../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
-import { db, auth } from "../../firebase/firebase";
 
 const useStyles = makeStyles({
   card: {
