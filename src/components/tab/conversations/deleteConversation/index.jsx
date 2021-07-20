@@ -1,12 +1,10 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import { db, auth } from "../../../../firebase/firebase";
+import { db } from "../../../../firebase/firebase";
 import { SimpleModal } from "../../../modal";
 
 export function DeleteConversation({ id, chatName }) {
   async function handleSend() {
-    const { uid } = auth.currentUser;
-
     await await db
       .collection("conversations")
       .doc(id)
@@ -20,9 +18,7 @@ export function DeleteConversation({ id, chatName }) {
   }
   return (
     <SimpleModal modalName="Delete" onSubmit={handleSend}>
-      <Typography>
-        Are you sure you want to delete {chatName} from your contacts list?
-      </Typography>
+      <Typography>Are you sure you want to delete "{chatName}"?</Typography>
     </SimpleModal>
   );
 }

@@ -43,7 +43,7 @@ export function Chat({ selectedConversation, contacts }) {
   const currentContactObj = contacts.filter(
     (contact) => contact.contactUid === currentContactUid
   );
-  console.log(currentContactObj);
+
   return (
     <div className="msgs">
       {messages.map(({ id, text, uid }) => (
