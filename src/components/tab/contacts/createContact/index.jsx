@@ -50,7 +50,6 @@ export function CreateContact() {
       <Input
         required
         fullWidth
-        inputProps={{ maxlength: 21 }}
         inputRef={contactUidRef}
         placeholder="User ID"
       />

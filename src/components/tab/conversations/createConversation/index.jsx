@@ -64,7 +64,6 @@ export function CreateConversation({
       <Input
         required
         fullWidth
-        inputProps={{ maxlength: 21 }}
         inputRef={participantRef}
         placeholder="Friend's User ID"
       />
