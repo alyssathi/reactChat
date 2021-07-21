@@ -57,6 +57,7 @@ export function SimpleTabs({
       <Paper position="static">
         <Tabs
           value={value}
+          indicatorColor="primary"
           onChange={handleChange}
           aria-label="simple tabs example"
         >

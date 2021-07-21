@@ -18,6 +18,12 @@ export function CreateContact() {
   const css = useStyles();
 
   async function handleSend() {
+    if (
+      displayNameRef.current.value.trim() === "" ||
+      contactUidRef.current.value.trim() === ""
+    ) {
+      return alert("please enter a valid name or id.");
+    }
     const { uid } = auth.currentUser;
 
     await db
@@ -26,8 +32,8 @@ export function CreateContact() {
       .collection("contacts")
       .doc(contactIdRef.current.value)
       .set({
-        displayName: displayNameRef.current.value,
-        contactUid: contactUidRef.current.value,
+        displayName: displayNameRef.current.value.trim(),
+        contactUid: contactUidRef.current.value.trim(),
         contactId: contactIdRef.current.value,
         createdAt: serverTimestamp(),
       });

@@ -8,6 +8,12 @@ export function UpdateContact({ contactId, displayName, contactUid }) {
 
   async function handleSend() {
     const { uid } = auth.currentUser;
+    if (
+      displayNameRef.current.value.trim() === "" ||
+      contactUidRef.current.value.trim() === ""
+    ) {
+      return alert("please enter a valid name or id.");
+    }
 
     await db
       .collection("users")
@@ -15,7 +21,8 @@ export function UpdateContact({ contactId, displayName, contactUid }) {
       .collection("contacts")
       .doc(contactId)
       .update({
-        displayName: displayNameRef.current.value,
+        displayName: displayNameRef.current.value.trim(),
+        contactUid: contactUidRef.current.value.trim(),
       });
   }
   return (

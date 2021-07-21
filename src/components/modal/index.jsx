@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-export function SimpleModal({ children, modalName, onSubmit }) {
+export function SimpleModal({ children, modalName, onSubmit, color }) {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
@@ -58,7 +58,12 @@ export function SimpleModal({ children, modalName, onSubmit }) {
 
   return (
     <div>
-      <Button type="button" className={classes.button} onClick={handleOpen}>
+      <Button
+        type="button"
+        className={classes.button}
+        color={color}
+        onClick={handleOpen}
+      >
         {modalName}
       </Button>
       <Modal

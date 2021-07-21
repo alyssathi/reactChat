@@ -19,13 +19,19 @@ export function CreateConversation() {
 
   async function handleSend() {
     const { uid } = auth.currentUser;
+    if (
+      chatNameRef.current.value.trim() === "" ||
+      participantRef.current.value.trim() === ""
+    ) {
+      return alert("please enter a valid chat name or friends ID.");
+    }
     await db
       .collection("conversations")
       .doc(idRef.current.value)
       .set({
-        chatName: chatNameRef.current.value,
+        chatName: chatNameRef.current.value.trim(),
         id: idRef.current.value,
-        participants: [uid, participantRef.current.value],
+        participants: [uid, participantRef.current.value.trim()],
         lastUsed: serverTimestamp(),
       });
   }

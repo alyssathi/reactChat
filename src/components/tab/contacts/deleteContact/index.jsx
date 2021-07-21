@@ -21,7 +21,7 @@ export function DeleteContact({ contactId, displayName }) {
       });
   }
   return (
-    <SimpleModal modalName="Delete" onSubmit={handleSend}>
+    <SimpleModal color="secondary" modalName="Delete" onSubmit={handleSend}>
       <Typography>
         Are you sure you want to delete {displayName} from your contacts list?
       </Typography>

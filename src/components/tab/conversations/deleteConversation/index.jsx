@@ -17,7 +17,7 @@ export function DeleteConversation({ id, chatName }) {
       });
   }
   return (
-    <SimpleModal modalName="Delete" onSubmit={handleSend}>
+    <SimpleModal modalName="Delete" color="secondary" onSubmit={handleSend}>
       <Typography>Are you sure you want to delete "{chatName}"?</Typography>
     </SimpleModal>
   );

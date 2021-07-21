@@ -57,7 +57,7 @@ export function UpdateProfile() {
     }
     if (displayNameRef !== currentUser.displayName) {
       promises.push(
-        updateProfile({ displayName: displayNameRef.current.value })
+        updateProfile({ displayName: displayNameRef.current.value.trim() })
       );
     }
 
@@ -79,7 +79,6 @@ export function UpdateProfile() {
         {error && <Alert severity="error">{error}</Alert>}
         <form onSubmit={handleSubmit} className={`${css.center}`}>
           <TextField
-            required
             fullWidth
             label="Display Name"
             type="string"
