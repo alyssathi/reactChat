@@ -11,7 +11,11 @@ const useStyles = makeStyles({
   },
 });
 
-export function CreateConversation() {
+export function CreateConversation({
+  filteredConversations,
+  handleConversation,
+  handleSelected,
+}) {
   const css = useStyles();
   const chatNameRef = useRef();
   const participantRef = useRef();
@@ -25,6 +29,18 @@ export function CreateConversation() {
     ) {
       return alert("please enter a valid chat name or friends ID.");
     }
+
+    const includesParticipant = filteredConversations.filter((convo) =>
+      convo.participants.includes(participantRef.current.value)
+    );
+
+    if (includesParticipant.length > 0) {
+      return (
+        handleConversation(includesParticipant[0].id),
+        handleSelected(includesParticipant[0].id)
+      );
+    }
+
     await db
       .collection("conversations")
       .doc(idRef.current.value)

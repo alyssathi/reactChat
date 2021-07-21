@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { List, ListItem, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import { DeleteConversation } from "../deleteConversation";
@@ -32,9 +32,10 @@ const useStyles = makeStyles({
 export function ConversationList({
   handleConversation,
   filteredConversations,
+  selected,
+  handleSelected,
 }) {
   const css = useStyles();
-  const [selected, setSelected] = useState(null);
 
   return (
     <List className={css.list}>
@@ -45,7 +46,7 @@ export function ConversationList({
             : "now";
           function handleClick(id, i) {
             handleConversation(id);
-            setSelected(id);
+            handleSelected(id);
           }
           return (
             <ListItem
