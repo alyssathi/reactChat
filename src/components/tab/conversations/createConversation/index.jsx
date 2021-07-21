@@ -41,12 +41,14 @@ export function CreateConversation() {
       <Input
         required
         fullWidth
+        inputProps={{ maxlength: 20 }}
         inputRef={chatNameRef}
         placeholder="Name your Conversation"
       />
       <Input
         required
         fullWidth
+        inputProps={{ maxlength: 21 }}
         inputRef={participantRef}
         placeholder="Friend's User ID"
       />

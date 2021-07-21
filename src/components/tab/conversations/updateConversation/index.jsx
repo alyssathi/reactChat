@@ -18,6 +18,7 @@ export function UpdateConversation({ id, chatName }) {
       <Input
         required
         fullWidth
+        inputProps={{ maxlength: 20 }}
         inputRef={chatNameRef}
         defaultValue={chatName}
       />

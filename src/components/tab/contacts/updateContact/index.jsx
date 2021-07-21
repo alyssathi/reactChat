@@ -30,12 +30,14 @@ export function UpdateContact({ contactId, displayName, contactUid }) {
       <Input
         required
         fullWidth
+        inputProps={{ maxlength: 20 }}
         inputRef={displayNameRef}
         defaultValue={displayName}
       />
       <Input
         required
         fullWidth
+        inputProps={{ maxlength: 21 }}
         inputRef={contactUidRef}
         defaultValue={contactUid}
       />

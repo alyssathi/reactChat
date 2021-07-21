@@ -40,10 +40,17 @@ export function CreateContact() {
   }
   return (
     <SimpleModal modalName="Create Contact" onSubmit={handleSend}>
-      <Input required fullWidth inputRef={displayNameRef} placeholder="Name" />
       <Input
         required
         fullWidth
+        inputProps={{ maxlength: 20 }}
+        inputRef={displayNameRef}
+        placeholder="Name"
+      />
+      <Input
+        required
+        fullWidth
+        inputProps={{ maxlength: 21 }}
         inputRef={contactUidRef}
         placeholder="User ID"
       />
